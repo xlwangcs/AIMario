@@ -2,9 +2,13 @@
 
 一个**零依赖**的网页游戏：原生 JavaScript + Canvas，所有像素画面由代码绘制、所有音乐音效由 WebAudio 实时合成——仓库里没有一张图片、没有一个音频文件、没有一个 npm 依赖。
 
+### ▶ 在线试玩：https://xlwangcs.github.io/AIMario/
+
+（精灵与瓦片图鉴：https://xlwangcs.github.io/AIMario/tools/art-preview.html）
+
 > ⚠️ 本项目是对经典游戏设计方法论的学习性致敬。不含任何任天堂素材（图形、音乐、旋律均为原创"致敬风"设计），非商业用途。
 
-## 快速开始
+## 本地运行
 
 ```bash
 git clone https://github.com/xlwangcs/AIMario.git
