@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8" />
+  <title>AIMario — 精灵与瓦片预览</title>
+  <style>
+    body { background: #202430; color: #d8dce8; font-family: system-ui, sans-serif; padding: 16px; }
+    h2 { margin: 24px 0 8px; font-size: 15px; color: #9fd0ff; }
+    .grid { display: flex; flex-wrap: wrap; gap: 10px; }
+    .cell { text-align: center; background: #2a2f40; border-radius: 4px; padding: 6px; }
+    .cell canvas { image-rendering: pixelated; display: block; margin: 0 auto 4px; background: #5c94fc; }
+    .cell span { font-size: 10px; color: #99a0b8; }
+  </style>
+</head>
+<body>
+  <h1 style="font-size:18px">AIMario 程序化美术预览（3×放大）</h1>
+  <div id="root"></div>
+  <script type="module">
+    import * as art from '../src/render/art.js';
+    import { drawTile } from '../src/render/tileart.js';
+    import { T } from '../src/data/tiles.js';
+
+    const root = document.getElementById('root');
+    const SCALE = 3;
+
+    function section(title) {
+      const h = document.createElement('h2');
+      h.textContent = title;
+      root.appendChild(h);
+      const g = document.createElement('div');
+      g.className = 'grid';
+      root.appendChild(g);
+      return g;
+    }
+
+    function cell(grid, label, w, h, painter) {
+      const div = document.createElement('div');
+      div.className = 'cell';
+      const cvs = document.createElement('canvas');
+      cvs.width = w * SCALE;
+      cvs.height = h * SCALE;
+      const ctx = cvs.getContext('2d');
+      ctx.imageSmoothingEnabled = false;
+      ctx.scale(SCALE, SCALE);
+      painter(ctx);
+      const span = document.createElement('span');
+      span.textContent = label;
+      div.appendChild(cvs);
+      div.appendChild(span);
+      grid.appendChild(div);
+    }
+
+    // 玩家全形态全姿态
+    const forms = ['small', 'super', 'fire', 'raccoon', 'tanooki', 'frog'];
+    for (const form of forms) {
+      const g = section(`player / ${form}`);
+      for (const pose of art.PLAYER_POSES) {
+        const { w, h } = art.spriteSize('player', form);
+        cell(g, pose, w + 16, h, (ctx) => art.drawPlayer(ctx, 8, 0, { form, pose, frame: 1, facing: 1 }));
+      }
+    }
+
+    // 敌人
+    const ge = section('enemies');
+    for (const kind of art.ENEMY_KINDS) {
+      const { w, h } = art.spriteSize('enemy', kind);
+      cell(ge, kind, w + 4, h + 4, (ctx) => art.drawEnemy(ctx, 2, 2, kind, { frame: 0 }));
+    }
+
+    // 道具
+    const gi = section('items');
+    for (const kind of art.ITEM_KINDS) {
+      cell(gi, kind, 20, 20, (ctx) => art.drawItem(ctx, 2, 2, kind, { frame: 0 }));
+    }
+
+    // 特效
+    const gf = section('effects');
+    for (const kind of art.EFFECT_KINDS) {
+      cell(gf, kind, 20, 20, (ctx) => art.drawEffect(ctx, 2, 2, kind, { frame: 2 }));
+    }
+
+    // 瓦片 × 主题
+    for (const theme of ['overworld', 'underground', 'fortress', 'athletic']) {
+      const gt = section(`tiles / ${theme}`);
+      for (const [name, id] of Object.entries(T)) {
+        if (id === 0) continue;
+        cell(gt, name, 20, 20, (ctx) => drawTile(ctx, 2, 2, id, theme, 0));
+      }
+    }
+  </script>
+</body>
+</html>
