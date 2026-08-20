@@ -1,0 +1,12 @@
+{
+  "name": "aimario",
+  "version": "1.0.0",
+  "description": "Super Mario Bros. 3 style tribute — zero-dependency HTML5 canvas game with procedural art and synthesized chiptune audio",
+  "type": "module",
+  "private": true,
+  "scripts": {
+    "start": "node tools/serve.mjs",
+    "test": "node --test tests/"
+  },
+  "license": "MIT"
+}

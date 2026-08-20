@@ -30,7 +30,8 @@ export const T = {
   FORT_BG: 23,     // 要塞背景砖（装饰，非实心）
   CLOUD: 24,       // 云平台（单向）
   BUSH_BG: 25,     // 灌木装饰
-  GOAL_BG: 26      // 终点区黑幕装饰
+  GOAL_BG: 26,     // 终点区黑幕装饰
+  QUESTION_STAR: 27 // 问号块（吐无敌星）
 };
 
 /** 物理属性表 */
@@ -43,6 +44,7 @@ def(T.SOLID, S);
 def(T.BRICK, { solid: true, breakable: true, bumpable: true });
 def(T.QUESTION, { solid: true, question: true, bumpable: true, content: 'coin' });
 def(T.QUESTION_ITEM, { solid: true, question: true, bumpable: true, content: 'power' });
+def(T.QUESTION_STAR, { solid: true, question: true, bumpable: true, content: 'star' });
 def(T.USED, S);
 def(T.COIN, { coin: true });
 def(T.ONEWAY, { oneway: true });
@@ -79,6 +81,7 @@ export const CHAR_TILES = {
   B: T.BRICK,
   '?': T.QUESTION,
   M: T.QUESTION_ITEM,
+  '*': T.QUESTION_STAR,
   U: T.USED,
   C: T.COIN,
   '=': T.ONEWAY,
